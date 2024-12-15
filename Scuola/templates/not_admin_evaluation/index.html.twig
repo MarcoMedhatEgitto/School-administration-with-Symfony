@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="page bg-azure-lt">
+    <h1>Evaluation</h1>
+    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.student) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.evaluationItem) }}
+    </div>
+    <div class="mb-3">
+        <table class="table table-bordered">
+            <tbody>
+            {#
+            {% set last_criteria = null %}
+            {% set is_criteria_show = false %}
+            {% for item in form.student %}
+                <tr>
+                    {% if item.criteria != last_criteria %}
+                        {% if not is_criteria_show %}
+                            <td>{{ item.criteria }}</td>
+                            {% set criteria_show = true %}
+                        {% endif %}
+                        {% set last_criteria = item.criteria %}
+                    {% else %}
+                        {% set criteria_show = false %}
+                    {% endif %}
+                    <td>{{ form_row(item) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            #}
+
+
+            {#
+            <thead>
+            <th>value</th>
+            {% set lastCriteria = null %}
+            {% for item in evaluationItems %}
+                {% if item.criteria!=lastCriteria %}
+                <th>{{ item.criteria }}</th>
+                    {% set lastCriteria = item.criteria %}
+                {% endif %}
+            {% endfor %}
+            </thead>
+            <tbody>
+            {% set levels = [] %}
+            {% for item in evaluationItems %}
+                <tr>
+                    {% set flag = 0 %}
+                    {% for level in levels %}
+                        {% if item.level == level %}
+                            {% set flag = 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if flag == 0 %}
+                        <td></td>
+                        {% set levels = levels|merge([item.level]) %}
+                    {% endif %}
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            #}
+        </table>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {{ form_end(form) }}
+    <a href="{{ path('main_page') }}" class="btn btn-info text-white">Torna alla pagina essensiale</a>
+</div>
+{% endblock %}

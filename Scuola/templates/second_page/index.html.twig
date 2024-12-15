@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="page bg-azure-lt">
+    <div id="carousel-sample" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% set shifter=0 %}
+            {% for activity in activities %}
+                <button type="button" data-bs-target="#carousel-sample" data-bs-slide-to="{{ shifter }}" class="{% if loop.first %}active{% endif %}"></button>
+                {% set shifter = shifter+1%}
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for activity in activities %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    {% set printedCriteria = false %}
+                    {% set printedVoto = false %}
+                    <h2>
+                        {{ activity.name }}
+                        <a class="small" href="{{ path('evaluation', {'activity': activity.id}) }}">aggiungi voto</a>
+                    </h2>
+                    <div class="table-responsive">
+                        <table class="table table-vcenter table-primary">
+                            <th>name</th>
+                            {% for evaluation in evaluations %}
+                                {% set voto = 0 %}
+                                {% set count = 0 %}
+                                {% if evaluation.activity.id == activity.id %}
+                                    {% if not printedCriteria %}
+                                        {% for item in evaluation.evaluationItem %}
+                                            <th>{{ item.criteria }}</th>
+                                            {% set printedCriteria = true %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if not printedVoto %}
+                                        <th>Voto finale</th>
+                                        {% set printedVoto = true %}
+                                    {% endif %}
+                                    <tr>
+                                        <td>{{ evaluation.student }}</td>
+                                        {% for item in evaluation.evaluationItem %}
+                                            {% set count=count+1 %}
+                                            <td>{{ item.level }}</td>
+                                            {% set voto = voto + item.level.value %}
+                                        {% endfor %}
+                                        {% if count != 0 %}
+                                            <td>{{ voto/count }}%</td>
+                                        {% endif %}
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+</div>
+{% endblock %}

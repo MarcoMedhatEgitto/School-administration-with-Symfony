@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <section class="py-5" id="features">
+        <div class="container px-5 my-5">
+            <div class="row gx-5">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{ error.messageKey|trans(error.messageData, 'security') }}
+                            </div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">
+                                    Logout
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                        <label for="username">Email</label>
+                        <input type="email" value="{{ last_username }}" name="_username" id="username"
+                               class="form-control"
+                               autocomplete="email" required autofocus>
+                        <label for="password">Password</label>
+                        <input type="password" name="_password" id="password" class="form-control"
+                               autocomplete="current-password" required>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="text-center">
+                            <button class="btn btn-lg btn-primary mt-4" type="submit">
+                                Accedi ora
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-lg-8">
+                    <img class="img-fluid" src="{{ asset('img/robert-collins-tvc5imO5pXk-unsplash.jpg') }}">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
